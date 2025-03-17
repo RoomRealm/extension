@@ -1,4 +1,10 @@
-class MultiplayerExtension {
+// Name: RoomRealm
+// ID: roomRealm
+// Description: Adds multiplayer functionality to Scratch projects, including account management, room hosting, messaging, and user interaction. A must-have for interactive projects!
+// By: Thebloxers998 <https://scratch.mit.edu/users/Thebloxers998/>
+// License: MPL-2.0
+
+class RoomRealmExtension {
     constructor(runtime) {
         this.runtime = runtime;
         this.loggedInUser = null; // To store logged-in user info
@@ -17,17 +23,25 @@ class MultiplayerExtension {
                     blockType: Scratch.BlockType.COMMAND,
                     text: 'Create Account with username [USERNAME] and password [PASSWORD]',
                     arguments: {
-                        USERNAME: { type: Scratch.ArgumentType.STRING, defaultValue: 'Username' },
-                        PASSWORD: { type: Scratch.ArgumentType.STRING, defaultValue: 'Password' },
+                        USERNAME: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Username'
+                        },
+                        PASSWORD: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Password'
+                        },
                     },
                 },
                 {
                     opcode: 'connectAccount',
                     blockType: Scratch.BlockType.COMMAND,
-                    text: 'Connect to account with username [USERNAME] and password [PASSWORD]',
+                    text: 'Connect to account with username [USERNAME]',
                     arguments: {
-                        USERNAME: { type: Scratch.ArgumentType.STRING, defaultValue: 'Username' },
-                        PASSWORD: { type: Scratch.ArgumentType.STRING, defaultValue: 'Password' },
+                        USERNAME: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Username'
+                        },
                     },
                 },
                 {
@@ -35,7 +49,10 @@ class MultiplayerExtension {
                     blockType: Scratch.BlockType.COMMAND,
                     text: 'Host a room named [ROOMNAME]',
                     arguments: {
-                        ROOMNAME: { type: Scratch.ArgumentType.STRING, defaultValue: 'Super Cool Room' },
+                        ROOMNAME: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Super Cool Room'
+                        },
                     },
                 },
                 {
@@ -43,7 +60,10 @@ class MultiplayerExtension {
                     blockType: Scratch.BlockType.COMMAND,
                     text: 'Join a room named [ROOMNAME]',
                     arguments: {
-                        ROOMNAME: { type: Scratch.ArgumentType.STRING, defaultValue: 'Room Name' },
+                        ROOMNAME: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Room Name'
+                        },
                     },
                 },
                 {
@@ -51,7 +71,10 @@ class MultiplayerExtension {
                     blockType: Scratch.BlockType.COMMAND,
                     text: 'Send message [MESSAGE] to room',
                     arguments: {
-                        MESSAGE: { type: Scratch.ArgumentType.STRING, defaultValue: 'Hello, world!' },
+                        MESSAGE: {
+                            type: Scratch.ArgumentType.STRING,
+                            defaultValue: 'Hello, world!'
+                        },
                     },
                 },
                 {
@@ -82,19 +105,19 @@ class MultiplayerExtension {
         }
     }
 
-    async connectAccount({ USERNAME, PASSWORD }) {
+    async connectAccount({ USERNAME }) {
         try {
             const response = await fetch('https://your-backend-service.com/connectAccount', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username: USERNAME, password: PASSWORD }),
+                body: JSON.stringify({ username: USERNAME }),
             });
             const result = await response.json();
             if (result.success) {
                 this.loggedInUser = USERNAME;
-                console.log('Logged in as:', USERNAME);
+                console.log('Connected as:', USERNAME);
             } else {
-                console.error('Failed to log in:', result.message);
+                console.error('Failed to connect:', result.message);
             }
         } catch (error) {
             console.error('Error connecting to account:', error);
@@ -170,4 +193,4 @@ class MultiplayerExtension {
 }
 
 // Register the extension with the RoomRealm name
-Scratch.extensions.register(new MultiplayerExtension());
+Scratch.extensions.register(new RoomRealmExtension());
